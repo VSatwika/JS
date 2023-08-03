@@ -27,13 +27,6 @@ fs.readFile("registration.html", (err, registration) => {
     }
     registrationContent = registration;
   });
-  fs.readFile("script.js", (err, script) => {
-    if (err) {
-      throw err;
-    }
-    scriptContent = script;
-  });
-  
 http
   .createServer((request, response) => {
     let url = request.url;
@@ -43,14 +36,10 @@ http
         response.write(projectContent);
         response.end();
         break;
-        case "/registration.html":
+        case "/registration":
             response.write(registrationContent);
             response.end();
             break;
-        case "/script.js":
-        response.write(scriptContent);
-        response.end();
-        break;
       default:
         response.write(homeContent);
         response.end();
