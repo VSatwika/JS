@@ -40,6 +40,7 @@ const todoList = () => {
           displayList += `[ ] ${title} ${dueDate}\n`;
         }
       });
+        displayList = displayList.trim();
   
       return displayList;
     };
