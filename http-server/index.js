@@ -1,5 +1,6 @@
 const http = require("http");
 const fs = require("fs");
+const portno = require("minimist")(process.argv.slice(2));
 
 let homeContent = "";
 let projectContent = "";
@@ -32,6 +33,7 @@ fs.readFile("registration.html", (err, registration) => {
     }
     scriptContent = script;
   });
+  
 http
   .createServer((request, response) => {
     let url = request.url;
@@ -55,4 +57,4 @@ http
         break;
     }
   })
-  .listen(3000);
+  .listen(portno.port);
