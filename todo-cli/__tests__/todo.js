@@ -28,7 +28,7 @@ describe("Todo test cases", () => {
     ].forEach(add);
   });
   test("Add new todo", () => {
-    expect(all.length).toEqual(3);
+    let prevlength = all.length;
 
     add({
       title: "Take the test",
@@ -36,7 +36,7 @@ describe("Todo test cases", () => {
       dueDate: new Date().toLocaleDateString("en-CA"),
     });
 
-    expect(all.length).toEqual(4);
+    expect(all.length).toEqual(prevlength + 1);
   });
 
   test("Todo mark as complete", () => {
@@ -46,18 +46,21 @@ describe("Todo test cases", () => {
   });
 
   test("Test for overdue", () => {
+    const overdueItems = overdue();
     const today = new Date().toISOString().split("T")[0];
     add({
       title: "Overdue Todo",
       completed: false,
-      dueDate: new Date(today).getTime() - 1 * 24 * 60 * 60 * 1000,
+      dueDate: new Date(
+        new Date(today).getTime() - 1 * 24 * 60 * 60 * 1000,
+      ).toLocaleDateString("en-CA"),
     });
 
-    const overdueItems = overdue();
-    expect(overdueItems).not.toContain(all[0]);
+    expect(overdue().length).toBe(overdueItems.length + 1);
   });
 
   test("Test due today", () => {
+    const dueTodayItems = dueToday();
     const today = new Date().toISOString().split("T")[0];
     add({
       title: "Due Today Todo",
@@ -65,11 +68,11 @@ describe("Todo test cases", () => {
       dueDate: today,
     });
 
-    const dueTodayItems = dueToday();
-    expect(dueTodayItems).not.toContain(all[0]);
+    expect(dueToday().length).toBe(dueTodayItems.length + 1);
   });
 
   test("Test for due later", () => {
+    const dueLaterItems = dueLater();
     add({
       title: "Due Later Todo",
       completed: false,
@@ -78,7 +81,6 @@ describe("Todo test cases", () => {
         .split("T")[0],
     });
 
-    const dueLaterItems = dueLater();
-    expect(dueLaterItems).toContain(all[0]);
+    expect(dueLater().length).toBe(dueLaterItems.length + 1);
   });
 });
