@@ -46,14 +46,39 @@ describe("Todo test cases", () => {
   });
 
   test("Test for overdue", () => {
-    expect(overdue).not.toBeNull();
+    const today = new Date().toISOString().split("T")[0];
+    add({
+      title: "Overdue Todo",
+      completed: false,
+      dueDate: new Date(today).getTime() - 1 * 24 * 60 * 60 * 1000,
+    });
+
+    const overdueItems = overdue();
+    expect(overdueItems).not.toContain(all[0]);
   });
 
   test("Test due today", () => {
-    expect(dueToday).not.toBeNull();
+    const today = new Date().toISOString().split("T")[0];
+    add({
+      title: "Due Today Todo",
+      completed: false,
+      dueDate: today,
+    });
+
+    const dueTodayItems = dueToday();
+    expect(dueTodayItems).not.toContain(all[0]);
   });
 
   test("Test for due later", () => {
-    expect(dueLater).not.toBeNull();
+    add({
+      title: "Due Later Todo",
+      completed: false,
+      dueDate: new Date(new Date().getTime() + 2 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0],
+    });
+
+    const dueLaterItems = dueLater();
+    expect(dueLaterItems).toContain(all[0]);
   });
 });

@@ -2,7 +2,7 @@ let userForm = document.getElementById("user-form");
 let userEntries = [];
 
 const retrieveEntries = () => {
-  let entries = localStorage.getItem('userEntries');
+  let entries = localStorage.getItem("userEntries");
   if (entries) {
     entries = JSON.parse(entries);
   } else {
@@ -23,35 +23,35 @@ const displayEntries = () => {
       const row = `<tr>${namedata} ${emaildata} ${passworddata} ${dobdata} ${termsdata}</tr>`;
       return row;
     })
-    .join('\n');
-  const tableBody = document.querySelector('#user-entries tbody');
+    .join("\n");
+  const tableBody = document.querySelector("#user-entries tbody");
   tableBody.innerHTML = tableEntries; // Add the table entries to the <tbody> element
 };
 
 const saveUserForm = (event) => {
   event.preventDefault();
-  const FullName = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-  const dob = document.getElementById('dob').value;
-  const terms = document.getElementById('terms').checked;
+  const FullName = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const dob = document.getElementById("dob").value;
+  const terms = document.getElementById("terms").checked;
   var currentYear = new Date().getFullYear();
   var birthYear = dob.split("-");
   let year = birthYear[0];
   var age = currentYear - year;
   console.log({ age, currentYear, birthYear });
   if (age < 18 || age > 55) {
-    document.getElementById('dob');
+    document.getElementById("dob");
     return alert("Age must be between 18 and 55");
   } else {
-    document.getElementById('dob');
+    document.getElementById("dob");
 
     const input = {
       FullName,
       email,
       password,
       dob,
-      terms
+      terms,
     };
     userEntries = retrieveEntries(); // Load existing entries from local storage
     userEntries.push(input); // Add the new entry to the list
@@ -61,5 +61,5 @@ const saveUserForm = (event) => {
   }
 };
 
-userForm.addEventListener('submit', saveUserForm);
+userForm.addEventListener("submit", saveUserForm);
 displayEntries();
